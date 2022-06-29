@@ -27,7 +27,7 @@
         <mat-icon>search</mat-icon>
       </div>
       <div class="search-input-container">
-        <input matInput type="text" placeholder="Location" class="search-bar" autocomplete="off"
+        <input matInput type="text" placeholder="Your Location" class="search-bar" autocomplete="off"
                ngx-google-places-autocomplete [(ngModel)]="locationInput"
                (onAddressChange)="setOffersDistance($event)"/>
         <mat-icon>location_on</mat-icon>

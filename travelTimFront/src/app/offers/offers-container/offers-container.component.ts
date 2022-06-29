@@ -92,6 +92,8 @@ export class OffersContainerComponent implements OnInit {
             }
           },
           (error: HttpErrorResponse) => {
+            this.showLoadingSpinner = false;
+            this.showNoOffersMessage = true;
             alert(error.message);
           }
         )
@@ -108,6 +110,8 @@ export class OffersContainerComponent implements OnInit {
             }
           },
           (error: HttpErrorResponse) => {
+            this.showLoadingSpinner = false;
+            this.showNoOffersMessage = true;
             alert(error.message);
           }
         )
@@ -124,6 +128,8 @@ export class OffersContainerComponent implements OnInit {
             }
           },
           (error: HttpErrorResponse) => {
+            this.showLoadingSpinner = false;
+            this.showNoOffersMessage = true;
             alert(error.message);
           }
         )
@@ -140,6 +146,8 @@ export class OffersContainerComponent implements OnInit {
             }
           },
           (error: HttpErrorResponse) => {
+            this.showLoadingSpinner = false;
+            this.showNoOffersMessage = true;
             alert(error.message);
           }
         )

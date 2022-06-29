@@ -11,7 +11,6 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class ReviewsDialogComponent implements OnInit {
 
   constructor(
-    private sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: {
       reviews: ReviewDTO[]
     }) { }
@@ -20,8 +19,9 @@ export class ReviewsDialogComponent implements OnInit {
     return new Array(nr);
   }
 
-  public getSanitizerUrl(url : string) {
-    return this.sanitizer.bypassSecurityTrustUrl(url);
+  public getFormattedReviewDate(reviewDate: string): string {
+    let date = new Date(reviewDate);
+    return date.toLocaleDateString('en-GB'); // dd/mm/yyyy
   }
 
   ngOnInit(): void {

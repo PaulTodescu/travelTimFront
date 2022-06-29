@@ -29,8 +29,8 @@ export class PhysicalLodgingOfferDetailsComponent implements OnInit {
     if (this.userService.checkIfUserIsLoggedIn()) {
       if (this.offer) {
         const dialogConfig = new MatDialogConfig();
-        dialogConfig.autoFocus = true;
         dialogConfig.autoFocus = false;
+        dialogConfig.disableClose = true;
         dialogConfig.panelClass = 'dialog-class' // in styles.css
         dialogConfig.data = {
           offerId: this.offer.id

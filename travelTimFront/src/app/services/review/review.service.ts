@@ -31,7 +31,7 @@ export class ReviewService {
     return this.http.get<ReviewDTO[]>(`${this.apiUrl}/review/business/${businessId}`);
   }
 
-  public getReviewsFortUser(): Observable<ReviewForUserDTO[]> {
+  public getReviewsForUser(): Observable<ReviewForUserDTO[]> {
     return this.http.get<ReviewForUserDTO[]>(`${this.apiUrl}/review/user`);
   }
 

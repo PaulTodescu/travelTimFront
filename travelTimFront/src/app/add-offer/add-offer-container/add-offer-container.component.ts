@@ -16,6 +16,7 @@ import {UserService} from "../../services/user/user.service";
 import {ImageService} from "../../services/image/image.service";
 import {OfferContact} from "../../entities/offerContact";
 import {Business} from "../../entities/business";
+import {ContactService} from "../../services/contact/contact.service";
 
 @Component({
   selector: 'app-add-offer-container',
@@ -66,6 +67,7 @@ export class AddOfferContainerComponent implements OnInit {
     private activityOfferService: ActivityService,
     private userService: UserService,
     private imageService: ImageService,
+    private contactService: ContactService,
     private injector: Injector) { }
 
   public getSelectedCategory(receivedCategory: string) {
@@ -166,8 +168,8 @@ export class AddOfferContainerComponent implements OnInit {
       if (this.legalPersonLodgingOffer !== undefined) {
         this.lodgingService.addLegalPersonLodgingOffer(this.legalPersonLodgingOffer).subscribe(
           (offerId: number) => {
+            this.addContactDetails(offerId, 'lodging', this.contactDetails);
             this.addImages(offerId);
-            this.addLodgingOfferContactDetails(offerId, this.contactDetails);
             this.onSuccess();
           },
           (error: HttpErrorResponse) => {
@@ -191,8 +193,8 @@ export class AddOfferContainerComponent implements OnInit {
       if (this.physicalPersonLodgingOffer !== undefined) {
         this.lodgingService.addPhysicalPersonLodgingOffer(this.physicalPersonLodgingOffer).subscribe(
           (offerId: number) => {
+            this.addContactDetails(offerId, 'lodging', this.contactDetails);
             this.addImages(offerId);
-            this.addLodgingOfferContactDetails(offerId, this.contactDetails);
             this.onSuccess();
           },
           (error: HttpErrorResponse) => {
@@ -237,9 +239,9 @@ export class AddOfferContainerComponent implements OnInit {
           } else if (this.foodOffer !== undefined) {
             this.foodService.addFoodOffer(this.foodOffer).subscribe(
               (offerId: number) => {
+                this.addContactDetails(offerId, 'food', this.contactDetails);
                 this.addFoodMenu(offerId);
                 this.addImages(offerId);
-                this.addFoodOfferContactDetails(offerId, this.contactDetails);
                 this.onSuccess();
               },
               (error: HttpErrorResponse) => {
@@ -290,7 +292,7 @@ export class AddOfferContainerComponent implements OnInit {
       }
       this.attractionService.addAttractionOffer(this.attractionOffer).subscribe(
         (offerId: number) => {
-          this.addAttractionOfferContactDetails(offerId, this.contactDetails);
+          this.addContactDetails(offerId, 'attractions', this.contactDetails);
           this.addImages(offerId);
           this.onSuccess();
         },
@@ -326,8 +328,8 @@ export class AddOfferContainerComponent implements OnInit {
       }
       this.activityOfferService.addActivityOffer(this.activityOffer).subscribe(
         (offerId: number) => {
+          this.addContactDetails(offerId, 'activities', this.contactDetails);
           this.addImages(offerId);
-          this.addActivityOfferContactDetails(offerId, this.contactDetails);
           this.onSuccess();
         },
         (error: HttpErrorResponse) => {
@@ -337,42 +339,9 @@ export class AddOfferContainerComponent implements OnInit {
     }
   }
 
-  private addLodgingOfferContactDetails(offerId: number, contactDetails: OfferContact | undefined) {
+  private addContactDetails(offerId: number, offerType: string, contactDetails: OfferContact | undefined) {
     if (contactDetails !== undefined){
-      this.lodgingService.addContactDetails(offerId, contactDetails).subscribe(
-        () => {},
-        (error: HttpErrorResponse) => {
-          alert(error.message);
-        }
-      )
-    }
-  }
-
-  private addFoodOfferContactDetails(offerId: number, contactDetails: OfferContact | undefined) {
-    if (contactDetails !== undefined){
-      this.foodService.addContactDetails(offerId, contactDetails).subscribe(
-        () => {},
-        (error: HttpErrorResponse) => {
-          alert(error.message);
-        }
-      )
-    }
-  }
-
-  private addAttractionOfferContactDetails(offerId: number, contactDetails: OfferContact | undefined) {
-    if (contactDetails !== undefined){
-      this.attractionService.addContactDetails(offerId, contactDetails).subscribe(
-        () => {},
-        (error: HttpErrorResponse) => {
-          alert(error.message);
-        }
-      )
-    }
-  }
-
-  private addActivityOfferContactDetails(offerId: number, contactDetails: OfferContact | undefined) {
-    if (contactDetails !== undefined){
-      this.activityOfferService.addContactDetails(offerId, contactDetails).subscribe(
+      this.contactService.setContactDetails(offerId, offerType, contactDetails).subscribe(
         () => {},
         (error: HttpErrorResponse) => {
           alert(error.message);

@@ -15,6 +15,7 @@ import {LegalPersonLodgingOfferEditDTO} from "../../entities/legalPersonLodgingO
 import {ImageService} from "../../services/image/image.service";
 import {Location} from "@angular/common";
 import {OfferContact} from "../../entities/offerContact";
+import {ContactService} from "../../services/contact/contact.service";
 
 @Component({
   selector: 'app-edit-lodging-offer-form',
@@ -41,6 +42,7 @@ export class EditLodgingOfferFormComponent implements OnInit {
     private locationService: LocationService,
     private lodgingService: LodgingService,
     private imageService: ImageService,
+    private contactService: ContactService,
     private injector: Injector,
     private activatedRout: ActivatedRoute) {
     this.activatedRout.queryParams.subscribe(
@@ -104,7 +106,7 @@ export class EditLodgingOfferFormComponent implements OnInit {
   }
 
   public getInitialContactDetails(offerId: number): void{
-    this.lodgingService.getContactDetails(offerId).subscribe(
+    this.contactService.getContactDetails(offerId, 'lodging').subscribe(
       (response: OfferContact) => {
         this.contactDetails = response;
       }, (error: HttpErrorResponse) => {
@@ -198,8 +200,8 @@ export class EditLodgingOfferFormComponent implements OnInit {
   }
 
   private editLodgingOfferContactDetails() {
-    if (this.id !== undefined && this.contactDetails !== undefined){
-      this.lodgingService.editContactDetails(this.id, this.contactDetails).subscribe(
+    if (this.id && this.contactDetails){
+      this.contactService.setContactDetails(this.id, 'lodging', this.contactDetails).subscribe(
         () => {},
         (error: HttpErrorResponse) => {
           alert(error.message);

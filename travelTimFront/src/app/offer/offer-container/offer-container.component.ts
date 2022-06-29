@@ -32,6 +32,7 @@ import {FavouritesService} from "../../services/favourites/favourites.service";
 import {UserService} from "../../services/user/user.service";
 import Swal from "sweetalert2";
 import {LodgingOfferRequestedPrice} from "../../entities/lodgingOfferRequestedPrice";
+import {ContactService} from "../../services/contact/contact.service";
 
 @Component({
   selector: 'app-offer-container',
@@ -89,6 +90,7 @@ export class OfferContainerComponent implements OnInit {
     private userService: UserService,
     private dialog: MatDialog,
     private currencyService: CurrencyService,
+    private contactService: ContactService,
     private router: Router,
     private injector: Injector,
     private reviewService: ReviewService,
@@ -185,8 +187,7 @@ export class OfferContainerComponent implements OnInit {
         if (response.user !== undefined) {
           this.userId = response.user.id;
           this.offerProviderName = response.user.firstName + ' ' + response.user.lastName;
-          this.offerContact =
-            new OfferContact(response.offerContact.email, response.offerContact.phoneNumber);
+          this.getOfferContact();
           this.getProviderImage(response.user?.id);
           this.getUserRating(response.user?.id);
         }
@@ -212,7 +213,7 @@ export class OfferContainerComponent implements OnInit {
         }
         this.offerDescription = response.description;
         this.offerProviderName = response.business.name;
-        this.offerContact = new OfferContact(response.offerContact.email, response.offerContact.phoneNumber);
+        this.getOfferContact();
         this.nrViews = response.nrViews;
         this.businessId = response.business.id;
         this.businessSchedule = response.business.schedule;
@@ -263,7 +264,7 @@ export class OfferContainerComponent implements OnInit {
         this.setLocationMarkerOnMap();
         this.offerDescription = response.description;
         this.nrViews = response.nrViews;
-        this.offerContact = new OfferContact(response.offerContact.email, response.offerContact.phoneNumber);
+        this.getOfferContact();
         this.tickets = response.tickets;
       }
     )
@@ -302,7 +303,7 @@ export class OfferContainerComponent implements OnInit {
         if (response.status !== 'active') {
           this.showDisabledOfferDialog();
         }
-        this.offerContact = new OfferContact(response.offerContact.email, response.offerContact.phoneNumber);
+        this.getOfferContact();
         this.tickets = response.tickets;
       }
     )
@@ -401,12 +402,24 @@ export class OfferContainerComponent implements OnInit {
     return new Array(nr);
   }
 
+  public getOfferContact(): void {
+    if (this.offerId && this.offerCategory) {
+        this.contactService.getContactDetails(this.offerId, this.offerCategory).subscribe(
+          (response: OfferContact) => {
+            this.offerContact = response;
+          }, (error: HttpErrorResponse) => {
+            alert(error.message);
+          }
+        )
+    }
+  }
+
   public scroll(el: HTMLElement): void {
     el.scrollIntoView({behavior: 'smooth'});
   }
 
   public setLocationMarkerOnMap(): void {
-   this.setMarker(this.offerAddress + ' ' + this.offerCity);
+    this.mapComponent.setMarker(this.offerAddress + ' ' + this.offerCity);
   }
 
   public setImage(image: string): void {
@@ -416,7 +429,6 @@ export class OfferContainerComponent implements OnInit {
   public mapImageObjects(){
     this.imageObjects = this.images.map((image) => ({image: image, alt: '...'}));
   }
-
 
   public getOfferImages(id: number){
     if (this.offerCategory !== undefined) {
@@ -450,10 +462,6 @@ export class OfferContainerComponent implements OnInit {
   public closeImageModal() {
     this.showImageModalFlag = false;
     this.selectedImageIndex = -1;
-  }
-
-  public setMarker(address: string): void {
-    //this.mapComponent.setMarker(address);
   }
 
   public seeBusinessSchedule(): void {

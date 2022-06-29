@@ -6,6 +6,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import Swal from "sweetalert2";
 import {ReservationDetailsComponent} from "./reservation-details/reservation-details.component";
+import {ngxCsv} from "ngx-csv";
+import {OfferReservation} from "../../entities/offerReservation";
 
 @Component({
   selector: 'app-reservations',
@@ -40,6 +42,14 @@ export class ReservationsComponent implements OnInit {
         }
       );
     }
+  }
+
+  public getFormattedReservationDate(reservationDate: string): string {
+    let date = new Date(reservationDate);
+    return date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString(
+      'it-IT',
+      { hour: '2-digit', minute: '2-digit'}
+    );
   }
 
   public openDeleteReservationDialog(reservationId: number) {
@@ -77,6 +87,57 @@ export class ReservationsComponent implements OnInit {
         alert(error.message);
       }
     );
+  }
+
+  public exportReservations(): void {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: false,
+      title: '',
+      useBom: true,
+      noDownload: false,
+      headers: ['Arrival Date', 'Arrival Time', 'Departure Date', 'Name', 'Email', 'Phone', 'Total Price', 'Address', 'City',]
+    };
+
+    let csvData: any = [];
+    let today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const yyyy = today.getFullYear();
+
+    let title = 'TravelTim-Reservations-' + dd + '-' + mm + '-' + yyyy;
+      for (let i = 0; i < this.reservations.length; i++) {
+        this.reservationService.getReservationDetails(this.reservations[i].id).subscribe(
+          (response: OfferReservation) => {
+            if (!response.arrivalTime){
+              response.arrivalTime = 'Not Provided';
+            }
+            if (!response.phoneNumber){
+              response.phoneNumber = 'Not Provided';
+            }
+            let entry = {
+              "Arrival Date": response.arrivalDate,
+              "Arrival Time": response.arrivalTime,
+              "Departure Date": response.departureDate,
+              "Name": response.firstName + ' ' + response.lastName,
+              "Email": response.email,
+              "Phone": response.phoneNumber,
+              "Total Price": response.totalPrice,
+              "Address": response.address,
+              "City": response.city
+            };
+            csvData.push(entry);
+            if (i === this.reservations.length - 1) {
+              new ngxCsv(csvData, title, options);
+            }
+          }, (error: HttpErrorResponse) => {
+            alert(error.message);
+          }
+        );
+      }
   }
 
   public onSuccess(message: string): void{

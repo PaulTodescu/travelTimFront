@@ -82,11 +82,13 @@ ng-image-fullscreen-view {
 
 .section #text {
   font-family: 'Trocchi', sans-serif;
-  font-size: 18px;
-  line-height: 32px;
+  font-size: 1.3em;
+  color: #7c795d;
+  opacity: 0.9;
+  margin-left: 15px;
 }
 
-#utilities-container {
+.section-elements {
   color: #7c795d;
   font-family: Bahnschrift, serif;
   display: flex;
@@ -97,20 +99,21 @@ ng-image-fullscreen-view {
   padding: 5px 0;
 }
 
-#utilities-container:empty {
+#section-elements:empty {
   display: none;
 }
 
-.utility {
+.element {
   border-radius: 7px;
   background-color: #ffffff;
   margin: 5px 0 5px 10px;
   padding: 5px 15px;
 }
 
-.utility h3 {
+.element h3 {
   font-size: 1.2em;
   margin: auto;
 }
+
 
 

@@ -5,7 +5,6 @@ import {FoodOffer} from "../../entities/foodOffer";
 import {FoodMenuItem} from "../../entities/foodMenuItem";
 import {FoodOfferDetails} from "../../entities/foodOfferDetails";
 import {FoodOfferEditDTO} from "../../entities/foodOfferEditDTO";
-import {OfferContact} from "../../entities/offerContact";
 import {FoodOffersStatistics} from "../../entities/foodOffersStatistics";
 
 @Injectable({
@@ -47,18 +46,6 @@ export class FoodService {
 
   public getFoodOfferDetails(offerId: number): Observable<FoodOfferDetails>{
     return this.http.get<FoodOfferDetails>(`${this.apiUrl}/food/${offerId}`);
-  }
-
-  public addContactDetails(offerId: number, contactDetails: OfferContact){
-    return this.http.put<void>(`${this.apiUrl}/food/${offerId}/contact/add`, contactDetails);
-  }
-
-  public editContactDetails(offerId: number, contactDetails: OfferContact){
-    return this.http.put<void>(`${this.apiUrl}/food/${offerId}/contact/edit`, contactDetails);
-  }
-
-  public getContactDetails(offerId: number): Observable<OfferContact>{
-    return this.http.get<OfferContact>(`${this.apiUrl}/food/${offerId}/contact`);
   }
 
   public changeFoodOfferStatus(offerId: number, status: string){

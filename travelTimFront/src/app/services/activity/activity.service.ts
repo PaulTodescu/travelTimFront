@@ -4,7 +4,6 @@ import {Observable} from "rxjs";
 import {ActivityOffer} from "../../entities/activityOffer";
 import {ActivityOfferDetails} from "../../entities/activityOfferDetails";
 import {ActivityOfferEditDTO} from "../../entities/activityOfferEditDTO";
-import {OfferContact} from "../../entities/offerContact";
 import {ActivityOffersStatistics} from "../../entities/activityOffersStatistics";
 
 @Injectable({
@@ -38,18 +37,6 @@ export class ActivityService {
 
   public editActivityOffer(offer: ActivityOfferEditDTO, offerId: number){
     return this.http.put<void>(`${this.apiUrl}/activity/${offerId}`, offer);
-  }
-
-  public addContactDetails(offerId: number, contactDetails: OfferContact){
-    return this.http.put<void>(`${this.apiUrl}/activity/${offerId}/contact/add`, contactDetails);
-  }
-
-  public editContactDetails(offerId: number, contactDetails: OfferContact){
-    return this.http.put<void>(`${this.apiUrl}/activity/${offerId}/contact/edit`, contactDetails);
-  }
-
-  public getContactDetails(offerId: number): Observable<OfferContact>{
-    return this.http.get<OfferContact>(`${this.apiUrl}/activity/${offerId}/contact`);
   }
 
   public changeActivityOfferStatus(offerId: number, status: string){

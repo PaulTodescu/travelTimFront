@@ -165,7 +165,7 @@ export class UserBusinessesComponent implements OnInit {
       const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
       const yyyy = today.getFullYear();
 
-      let title = 'Businesses-' + dd + '-' + mm + '-' + yyyy;
+      let title = 'TravelTim-Businesses-' + dd + '-' + mm + '-' + yyyy;
 
       new ngxCsv(csvData, title, options);
 

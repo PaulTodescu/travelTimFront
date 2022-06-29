@@ -110,4 +110,5 @@ export class UserService {
     return this.http.get<ActivityOfferForBusinessPageDTO[]>(
       `${this.apiUrl}/user/${userId}/offers/activities`);
   }
+
 }

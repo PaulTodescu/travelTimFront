@@ -29,9 +29,20 @@
     </div>
     <div *ngIf="data.utilities.length !== 0" class="section">
       <h1 class="title">Services</h1>
-      <div id="utilities-container">
-        <div class="utility" *ngFor="let utility of data.utilities">
+      <div class="section-elements">
+        <div class="element" *ngFor="let utility of data.utilities">
           <h3>{{utility.name}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <h1 class="title">Contact</h1>
+      <div class="section-elements">
+        <div class="element">
+          <h3>{{offerContact?.email}}</h3>
+        </div>
+        <div class="element" *ngIf="offerContact?.phoneNumber">
+          <h3>{{offerContact?.phoneNumber}}</h3>
         </div>
       </div>
     </div>

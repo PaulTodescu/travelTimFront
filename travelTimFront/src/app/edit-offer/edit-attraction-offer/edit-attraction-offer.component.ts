@@ -14,6 +14,7 @@ import {ImageService} from "../../services/image/image.service";
 import {Location} from "@angular/common";
 import Swal from "sweetalert2";
 import {OfferContact} from "../../entities/offerContact";
+import {ContactService} from "../../services/contact/contact.service";
 
 @Component({
   selector: 'app-edit-attraction-offer',
@@ -39,6 +40,7 @@ export class EditAttractionOfferComponent implements OnInit {
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private imageService: ImageService,
+    private contactService: ContactService,
     private injector: Injector,
     private activatedRout: ActivatedRoute) {
     this.activatedRout.queryParams.subscribe(
@@ -74,7 +76,7 @@ export class EditAttractionOfferComponent implements OnInit {
   }
 
   public getInitialContactDetails(offerId: number): void{
-    this.attractionService.getContactDetails(offerId).subscribe(
+    this.contactService.getContactDetails(offerId, 'attractions').subscribe(
       (response: OfferContact) => {
         this.contactDetails = response;
       }, (error: HttpErrorResponse) => {
@@ -138,8 +140,8 @@ export class EditAttractionOfferComponent implements OnInit {
   }
 
   private editAttractionOfferContactDetails() {
-    if (this.id !== undefined && this.contactDetails !== undefined){
-      this.attractionService.editContactDetails(this.id, this.contactDetails).subscribe(
+    if (this.id && this.contactDetails){
+      this.contactService.setContactDetails(this.id, 'attractions', this.contactDetails).subscribe(
         () => {},
         (error: HttpErrorResponse) => {
           alert(error.message);
@@ -147,7 +149,6 @@ export class EditAttractionOfferComponent implements OnInit {
       )
     }
   }
-
 
   public toggleBusinessInput(): void {
     this.showBusinessInput = !this.showBusinessInput;

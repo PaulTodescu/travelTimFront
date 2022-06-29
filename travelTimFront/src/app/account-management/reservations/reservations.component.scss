@@ -4,7 +4,7 @@
   background-color: #ededed;
 }
 
-.account-management-right-container h1 {
+#top-section h1 {
   font-family: "Trebuchet MS", sans-serif;
   font-size: 1.8em;
 }
@@ -99,4 +99,13 @@ mat-icon {
 
 .alert-heading {
   margin: 15px;
+}
+
+#export-button {
+  background-color: #696969;
+  color: white;
+  align-self: flex-end;
+  margin-left: auto;
+  font-size: 1.1em;
+  margin-bottom: 5px;
 }

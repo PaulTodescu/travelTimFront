@@ -38,9 +38,9 @@ export class AccountContainerComponent implements OnInit {
     let fileList: FileList | null = element.files;
     if (fileList) {
       this.profileImage = fileList[0];
-
       this.imageService.uploadProfileImage(this.profileImage).subscribe(
         () => {
+          localStorage.removeItem('profile-image');
           window.location.reload();
         },
         (error: HttpErrorResponse) => {

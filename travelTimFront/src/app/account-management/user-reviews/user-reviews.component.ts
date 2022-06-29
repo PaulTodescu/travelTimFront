@@ -27,7 +27,7 @@ export class UserReviewsComponent implements OnInit {
     private reviewService: ReviewService) { }
 
   public getReviews(): void {
-    this.reviewService.getReviewsFortUser().subscribe(
+    this.reviewService.getReviewsForUser().subscribe(
       (response: ReviewForUserDTO[]) => {
         this.reviews = response;
         if (response.length === 0) {
@@ -42,6 +42,11 @@ export class UserReviewsComponent implements OnInit {
 
   public counter(nr: number): Array<number> {
     return new Array(nr);
+  }
+
+  public getFormattedReviewDate(reviewDate: string): string {
+    let date = new Date(reviewDate);
+    return date.toLocaleDateString('en-GB'); // dd/mm/yyyy
   }
 
   public openDeleteReviewDialog(reviewId: number, targetName: string): void {

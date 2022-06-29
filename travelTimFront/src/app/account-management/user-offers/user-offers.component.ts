@@ -52,6 +52,7 @@ export class UserOffersComponent implements OnInit {
   nrItemsOnPage: number = 5;
   showLoadingSpinner: boolean = true;
   showNoOffersMessage: boolean = false;
+  showFilterOptions: boolean = false;
 
   // filter options
   offeredByBusiness: boolean = false;
@@ -104,6 +105,7 @@ export class UserOffersComponent implements OnInit {
     });
     this.location.replaceState(location.pathname, params.toString());
     this.showNoOffersMessage = false;
+    this.showFilterOptions = false;
     this.getOffers();
     this.page = 1;
     this.resetFilterOptions();
@@ -119,8 +121,10 @@ export class UserOffersComponent implements OnInit {
           this.filteredLodgingOffers = response;
           if (response.length === 0) {
             this.showNoOffersMessage = true;
+          } else {
+            this.showFilterOptions = true;
           }
-          },
+        },
         (error: HttpErrorResponse) => {
           this.showLoadingSpinner = false;
           alert(error.message);
@@ -134,6 +138,8 @@ export class UserOffersComponent implements OnInit {
           this.filteredFoodOffers = response;
           if (response.length === 0) {
             this.showNoOffersMessage = true;
+          } else {
+            this.showFilterOptions = true;
           }
         }, (error: HttpErrorResponse) => {
           this.showLoadingSpinner = false;
@@ -149,6 +155,9 @@ export class UserOffersComponent implements OnInit {
           if (response.length === 0) {
             this.showNoOffersMessage = true;
           }
+          else {
+            this.showFilterOptions = true;
+          }
         }, (error: HttpErrorResponse) => {
           this.showLoadingSpinner = false;
           alert(error.message);
@@ -162,6 +171,9 @@ export class UserOffersComponent implements OnInit {
           this.filteredActivityOffers = response;
           if (response.length === 0) {
             this.showNoOffersMessage = true;
+          }
+          else {
+            this.showFilterOptions = true;
           }
           this.showLoadingSpinner = false;
         }, (error: HttpErrorResponse) => {

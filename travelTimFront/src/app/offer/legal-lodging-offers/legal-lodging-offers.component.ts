@@ -5,7 +5,6 @@ import {LegalPersonLodgingOfferDetailsDTO} from "../../entities/legalPersonLodgi
 import {OfferReservationComponent} from "../offer-reservation/offer-reservation.component";
 import {UserService} from "../../services/user/user.service";
 import Swal from "sweetalert2";
-import {LodgingOfferDetailsDTO} from "../../entities/lodgingOfferDetailsDTO";
 
 @Component({
   selector: 'app-legal-lodging-offers',
@@ -29,7 +28,7 @@ export class LegalLodgingOffersComponent implements OnInit {
       dialogConfig.data = {
         id: this.offers[offerIndex].id,
         description: this.offers[offerIndex].description,
-        utilities: this.offers[offerIndex].utilities
+        utilities: this.offers[offerIndex].utilities,
       }
     }
     this.dialog.open(LegalLodgingOfferDetailsComponent, dialogConfig);
@@ -48,8 +47,8 @@ export class LegalLodgingOffersComponent implements OnInit {
     if (this.userService.checkIfUserIsLoggedIn()) {
       if (offer) {
         const dialogConfig = new MatDialogConfig();
-        dialogConfig.autoFocus = true;
         dialogConfig.autoFocus = false;
+        dialogConfig.disableClose = true;
         dialogConfig.panelClass = 'dialog-class' // in styles.css
         dialogConfig.data = {
           offerId: offer.id

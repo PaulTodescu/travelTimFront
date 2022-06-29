@@ -77,7 +77,11 @@
   </div>
 </div>
 
-<div id="info-section">
+<!--<div style="width: fit-content; margin: 0 auto; background-color: #f7f7f7; padding: 20px; border-radius: 7px;">-->
+<!--  <app-weather-widget></app-weather-widget>-->
+<!--</div>-->
+
+<div class="info-section">
   <div style="flex: 2 0 0 !important;">
     <div id="info-section-content">
       <h1 id="info-section-title">
@@ -97,64 +101,68 @@
   </div>
 </div>
 
-<div id="map-section">
-  <div *ngIf="showMapDirectionsInput; then showDirectionsInput else hideDirectionsInput"></div>
-  <ng-template #showDirectionsInput>
-    <h1 class="map-section-title">Click <span (click)="toggleMapDirectionsInput()">here</span> to hide directions</h1>
-    <div class="row row-cols-1 row-cols-md-2 g-4" style="margin: 0 auto">
-      <div class="col">
-        <mat-icon style="width: 10%;"> location_on</mat-icon>
-        <mat-form-field style="width: 90%" appearance="fill">
-          <mat-label>Your Location</mat-label>
-          <input matInput type="text" ngx-google-places-autocomplete [(ngModel)]="directionsInput"
-                 (onAddressChange)="getDirections($event)"/>
-        </mat-form-field>
+<div class="info-section" style="width: 80% !important;">
+  <div id="map-section">
+    <div *ngIf="showMapDirectionsInput; then showDirectionsInput else hideDirectionsInput"></div>
+    <ng-template #showDirectionsInput>
+      <h1 class="map-section-title">Click <span (click)="toggleMapDirectionsInput()">here</span> to hide directions</h1>
+      <div class="row row-cols-1 row-cols-md-2 g-4" style="margin: 0 auto">
+        <div class="col">
+          <mat-icon style="width: 10%;"> location_on</mat-icon>
+          <mat-form-field style="width: 90%" appearance="fill">
+            <mat-label>Your Location</mat-label>
+            <input matInput type="text" ngx-google-places-autocomplete [(ngModel)]="directionsInput"
+                   (onAddressChange)="getDirections($event)"/>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <div class="icon-btn-container">
+            <a class="icon-btn" [ngClass]="{'selectedTransportationOption': selectedTransportationOption === 'DRIVING'}"
+               (click)="switchTransportationOption('DRIVING')">
+              <mat-icon> directions_car </mat-icon>
+            </a>
+          </div>
+          <div class="icon-btn-container">
+            <a class="icon-btn" [ngClass]="{'selectedTransportationOption': selectedTransportationOption === 'WALKING'}"
+               (click)="switchTransportationOption('WALKING')">
+              <mat-icon> directions_walk </mat-icon>
+            </a>
+          </div>
+          <!--        <div class="icon-btn-container">-->
+          <!--          <a class="icon-btn" [ngClass]="{'selectedTransportationOption': selectedTransportationOption === 'BICYCLING'}"-->
+          <!--             (click)="switchTransportationOption('BICYCLING')">-->
+          <!--            <mat-icon> directions_bike </mat-icon>-->
+          <!--          </a>-->
+          <!--        </div>-->
+          <div class="icon-btn-container">
+            <a class="icon-btn" [ngClass]="{'selectedTransportationOption': selectedTransportationOption === 'TRANSIT'}"
+               (click)="switchTransportationOption('TRANSIT')">
+              <mat-icon > directions_bus </mat-icon>
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="col">
-        <div class="icon-btn-container">
-          <a class="icon-btn" [ngClass]="{'selectedTransportationOption': selectedTransportationOption === 'DRIVING'}"
-          (click)="switchTransportationOption('DRIVING')">
-            <mat-icon> directions_car </mat-icon>
-          </a>
-        </div>
-        <div class="icon-btn-container">
-          <a class="icon-btn" [ngClass]="{'selectedTransportationOption': selectedTransportationOption === 'WALKING'}"
-             (click)="switchTransportationOption('WALKING')">
-            <mat-icon> directions_walk </mat-icon>
-          </a>
-        </div>
-<!--        <div class="icon-btn-container">-->
-<!--          <a class="icon-btn" [ngClass]="{'selectedTransportationOption': selectedTransportationOption === 'BICYCLING'}"-->
-<!--             (click)="switchTransportationOption('BICYCLING')">-->
-<!--            <mat-icon> directions_bike </mat-icon>-->
-<!--          </a>-->
-<!--        </div>-->
-        <div class="icon-btn-container">
-          <a class="icon-btn" [ngClass]="{'selectedTransportationOption': selectedTransportationOption === 'TRANSIT'}"
-             (click)="switchTransportationOption('TRANSIT')">
-            <mat-icon > directions_bus </mat-icon>
-          </a>
-        </div>
+      <div *ngIf="directionsRequestStatus" style="display: block; width: 100%;">
+        <h1 style="text-align: center; color: #7c795d; overflow: hidden; text-overflow: ellipsis"> {{originLocation}}
+          <mat-icon style="vertical-align: middle">arrow_right_alt</mat-icon> Timișoara</h1>
+        <h2><span style="color: #7c795d;">Travel Distance: </span>{{travelDistance}}</h2>
+        <h2><span style="color: #7c795d;">Travel Time: </span>{{travelTime}}</h2>
       </div>
+    </ng-template>
+    <ng-template #hideDirectionsInput>
+      <h1 class="map-section-title">Click <span (click)="toggleMapDirectionsInput()">here</span> to get directions</h1>
+    </ng-template>
+    <div style="overflow: hidden;">
+      <p id="reset" (click)="resetMap()">reset</p>
     </div>
-    <div *ngIf="directionsRequestStatus" style="display: block; width: 100%;">
-      <h1 style="text-align: center; color: #7c795d; overflow: hidden; text-overflow: ellipsis"> {{originLocation}} <mat-icon style="vertical-align: middle">arrow_right_alt</mat-icon> Timișoara</h1>
-      <h2><span style="color: #7c795d;">Travel Distance: </span>{{travelDistance}}</h2>
-      <h2><span style="color: #7c795d;">Travel Time: </span>{{travelTime}}</h2>
-    </div>
-  </ng-template>
-  <ng-template #hideDirectionsInput>
-    <h1 class="map-section-title">Click <span (click)="toggleMapDirectionsInput()">here</span> to get directions</h1>
-  </ng-template>
-  <div style="overflow: hidden;">
-    <p id="reset" (click)="resetMap()">reset</p>
+    <app-map
+      (directionsRequestStatusEvent)="getDirectionsRequestStatus($event)"
+      (originLocationEvent) = "getOriginLocation($event)"
+      (travelDistanceEvent)="getTravelDistance($event)"
+      (travelTimeEvent) ="getTravelTime($event)">
+    </app-map>
   </div>
-  <app-map
-    (directionsRequestStatusEvent)="getDirectionsRequestStatus($event)"
-    (originLocationEvent) = "getOriginLocation($event)"
-    (travelDistanceEvent)="getTravelDistance($event)"
-    (travelTimeEvent) ="getTravelTime($event)">
-  </app-map>
+  <app-weather-widget style="flex: 1 1 0;"></app-weather-widget>
 </div>
 
 <div class="footer">

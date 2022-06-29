@@ -59,6 +59,11 @@ export class ReviewsComponent implements OnInit, OnChanges {
     return this.reviews;
   }
 
+  public getFormattedReviewDate(reviewDate: string): string {
+    let date = new Date(reviewDate);
+    return date.toLocaleDateString('en-GB'); // dd/mm/yyyy
+  }
+
   public openAddReviewDialog(): void {
     if (this.userService.checkIfUserIsLoggedIn()) {
       const dialogConfig = new MatDialogConfig();

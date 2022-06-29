@@ -91,6 +91,8 @@ import { PriceRequestDialogComponent } from './offer/price-request-dialog/price-
 import { VisitedLocationsComponent } from './account-management/visited-locations/visited-locations.component';
 import { AddVisitedLocationDialogComponent } from './account-management/visited-locations/add-visited-location-dialog/add-visited-location-dialog.component';
 import { OffersStatisticsComponent } from './account-management/user-offers/offers-statistics/offers-statistics.component';
+import { AngularWeatherWidgetModule } from 'angular2-weather-widget';
+import { WeatherWidgetComponent } from './weather-widget/weather-widget.component';
 
 @NgModule({
   declarations: [
@@ -152,6 +154,7 @@ import { OffersStatisticsComponent } from './account-management/user-offers/offe
     VisitedLocationsComponent,
     AddVisitedLocationDialogComponent,
     OffersStatisticsComponent,
+    WeatherWidgetComponent,
   ],
     imports: [
       BrowserModule,
@@ -188,7 +191,8 @@ import { OffersStatisticsComponent } from './account-management/user-offers/offe
       IvyCarouselModule,
       NgImageFullscreenViewModule,
       MatProgressSpinnerModule,
-      MatTooltipModule
+      MatTooltipModule,
+      AngularWeatherWidgetModule
     ],
   providers:
     [

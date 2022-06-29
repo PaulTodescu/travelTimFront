@@ -92,7 +92,11 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('profile-image');
     if (
       this.router.url.includes('/account') ||
-      this.router.url === '/offer/add'){
+      this.router.url === '/offer/add' ||
+      this.router.url.split('?')[0] === '/offer/lodging/edit' ||
+      this.router.url.split('?')[0] === '/offer/food/edit' ||
+      this.router.url.split('?')[0] === '/offer/attraction/edit' ||
+      this.router.url.split('?')[0] === '/offer/activity/edit'){
       this.router.navigateByUrl('/home');
     } else {
       window.location.reload();

@@ -14,6 +14,7 @@ import {ImageService} from "../../services/image/image.service";
 import {Location} from "@angular/common";
 import Swal from "sweetalert2";
 import {OfferContact} from "../../entities/offerContact";
+import {ContactService} from "../../services/contact/contact.service";
 
 @Component({
   selector: 'app-edit-activity-offer',
@@ -38,6 +39,7 @@ export class EditActivityOfferComponent implements OnInit {
     private locationService: LocationService,
     private dialog: MatDialog,
     private imageService: ImageService,
+    private contactService: ContactService,
     private injector: Injector,
     private formBuilder: FormBuilder,
     private activatedRout: ActivatedRoute) {
@@ -74,7 +76,7 @@ export class EditActivityOfferComponent implements OnInit {
   }
 
   public getInitialContactDetails(offerId: number): void{
-    this.activityService.getContactDetails(offerId).subscribe(
+    this.contactService.getContactDetails(offerId, 'activities').subscribe(
       (response: OfferContact) => {
         this.contactDetails = response;
       }, (error: HttpErrorResponse) => {
@@ -138,8 +140,8 @@ export class EditActivityOfferComponent implements OnInit {
   }
 
   private editActivityOfferContactDetails() {
-    if (this.id !== undefined && this.contactDetails !== undefined){
-      this.activityService.editContactDetails(this.id, this.contactDetails).subscribe(
+    if (this.id && this.contactDetails){
+      this.contactService.setContactDetails(this.id, 'activities', this.contactDetails).subscribe(
         () => {},
         (error: HttpErrorResponse) => {
           alert(error.message);

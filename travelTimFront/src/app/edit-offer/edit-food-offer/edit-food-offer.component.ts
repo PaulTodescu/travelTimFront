@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import {ImageService} from "../../services/image/image.service";
 import {Location} from "@angular/common";
 import {OfferContact} from "../../entities/offerContact";
+import {ContactService} from "../../services/contact/contact.service";
 
 @Component({
   selector: 'app-edit-food-offer',
@@ -38,6 +39,7 @@ export class EditFoodOfferComponent implements OnInit {
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private imageService: ImageService,
+    private contactService: ContactService,
     private injector: Injector,
     private activatedRout: ActivatedRoute) {
     this.activatedRout.queryParams.subscribe(
@@ -79,7 +81,7 @@ export class EditFoodOfferComponent implements OnInit {
   }
 
   public getInitialContactDetails(offerId: number): void{
-    this.foodService.getContactDetails(offerId).subscribe(
+    this.contactService.getContactDetails(offerId, 'food').subscribe(
       (response: OfferContact) => {
         this.contactDetails = response;
       }, (error: HttpErrorResponse) => {
@@ -139,8 +141,6 @@ export class EditFoodOfferComponent implements OnInit {
           if (this.id !== undefined){
             this.addFoodMenu(this.id);
           }
-          this.sendImages();
-          this.editFoodOfferContactDetails();
         }, (error: HttpErrorResponse) => {
           alert(error.message);
         }
@@ -149,8 +149,8 @@ export class EditFoodOfferComponent implements OnInit {
   }
 
   private editFoodOfferContactDetails() {
-    if (this.id !== undefined && this.contactDetails !== undefined){
-      this.foodService.editContactDetails(this.id, this.contactDetails).subscribe(
+    if (this.id && this.contactDetails){
+      this.contactService.setContactDetails(this.id, 'food', this.contactDetails).subscribe(
         () => {},
         (error: HttpErrorResponse) => {
           alert(error.message);
@@ -191,27 +191,6 @@ export class EditFoodOfferComponent implements OnInit {
 
   public getImages(receivedImages: File[]): void {
     this.images = receivedImages;
-  }
-
-  public sendImages(): void {
-    if (this.id !== undefined){
-      Swal.fire({
-        title: 'Please Wait...',
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading()
-        }
-      });
-      this.imageService.uploadOfferImages(this.id, 'food', this.images).subscribe(
-        () => {
-          this.onSuccess();
-        },
-        (error: HttpErrorResponse) => {
-          alert(error.message);
-        }
-      );
-    }
   }
 
   public getFormDescriptionErrorMessage(){
@@ -280,7 +259,9 @@ export class EditFoodOfferComponent implements OnInit {
     })
     if (this.foodOffer !== undefined) {
       this.foodService.addFoodMenu(foodOfferId, foodMenuKeyValuePairs).subscribe(
-        () => {},
+        () => {
+          this.sendImages();
+        },
         () => {
           this.onFail("Could not add menu");
         }
@@ -357,6 +338,28 @@ export class EditFoodOfferComponent implements OnInit {
       return String(nr);
     }
     return '';
+  }
+
+  public sendImages(): void {
+    if (this.id !== undefined){
+      Swal.fire({
+        title: 'Please Wait...',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading()
+        }
+      });
+      this.imageService.uploadOfferImages(this.id, 'food', this.images).subscribe(
+        () => {
+          this.editFoodOfferContactDetails();
+          this.onSuccess();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+    }
   }
 
   public checkIfBusinessHasFoodOffer(): void{

@@ -48,9 +48,6 @@ export class BusinessOffersComponent implements OnInit {
   carouselImageIndex: number = -1;
   page: number = 1;
   nrItemsOnPage: number = 5;
-
-  showBusinessContact: boolean = false;
-
   lodgingOffers: LegalPersonLodgingOfferDTO[] = [];
   foodOffer: FoodOfferIdMenuImageDTO | undefined;
   attractionOffers: AttractionOfferForBusinessDTO[] = [];

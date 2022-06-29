@@ -240,6 +240,11 @@ export class OfferReservationComponent implements OnInit {
       let arrivalDate = this.selectedArrivalDate?.toLocaleDateString('en-GB');
       let arrivalTime = this.ReservationForm.get('arrivalTime')?.value;
       let departureDate = this.selectedDepartureDate?.toLocaleDateString('en-GB');
+      if (!arrivalDate) {
+        this.onFail("Select a valid arrival date");
+      } else if (!departureDate) {
+        this.onFail("Select a valid departure date");
+      }
       let firstName = this.ReservationForm.get('firstName')?.value;
       let lastName = this.ReservationForm.get('lastName')?.value;
       let email = this.ReservationForm.get('email')?.value;

@@ -1,4 +1,5 @@
 import {LodgingUtility} from "./lodgingUtility";
+import {OfferContact} from "./offerContact";
 
 export interface LegalPersonLodgingOfferDetailsDTO {
 
@@ -13,5 +14,5 @@ export interface LegalPersonLodgingOfferDetailsDTO {
   description: string;
   address: string;
   utilities: LodgingUtility[];
-
+  offerContact: OfferContact
 }

@@ -6,7 +6,7 @@
     <div *ngFor="let review of data.reviews" class="review">
       <div class="user-img-name">
         <img
-          [src]="getSanitizerUrl(review.image)"
+          [src]="review.image"
           alt="..."
           class="user-img"/>
         <h2 class="review-author-name">{{review.authorName}}</h2>
@@ -14,7 +14,7 @@
           <mat-icon *ngFor="let i of counter(review.rating)">star</mat-icon>
           <mat-icon *ngFor="let i of counter(5 - review.rating)">star_border</mat-icon>
         </h3>
-        <h3 class="review-date"><span style="color: #919191">- {{review.createdAt}} -</span></h3>
+        <h3 class="review-date"><span style="color: #919191">- {{getFormattedReviewDate(review.createdAt)}} -</span></h3>
       </div>
       <h3 class="review-content">
         <i>

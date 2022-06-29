@@ -72,7 +72,6 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   public resetMap(): void {
-    alert('called')
     this.directionsRenderer.setDirections({routes: []});
     this.map.setCenter(this.coordinates);
     this.map.setZoom(12);
