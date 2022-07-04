@@ -113,13 +113,13 @@ export class OffersStatisticsComponent implements OnInit {
             statistics.averageRequestedOffersPrice
           ],
           backgroundColor: [
-            '#d9d7ca',
-            '#d9d7ca',
-            '#d9d7ca',
-            '#d9d7ca',
-            '#d9d7ca',
+            '#7c795d',
+            '#7c795d',
+            '#7c795d',
+            '#7c795d',
+            '#7c795d',
           ],
-          hoverBackgroundColor: '#bfbdb2'
+          hoverBackgroundColor: '#8c8969'
         }]
       },
       options: {
